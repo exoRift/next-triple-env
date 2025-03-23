@@ -1,7 +1,9 @@
 {
   "name": "next-triple-env",
   "module": "index.ts",
+  "version": "1.0.0",
   "type": "module",
+  "files": ["dist/"],
   "scripts": {
     "lint": "eslint .",
     "build": "tsc"
