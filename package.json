@@ -4,14 +4,13 @@
   "type": "module",
   "scripts": {
     "lint": "eslint .",
-    "build": "bun build --no-bundle src/*.ts --outdir dist && tsc"
+    "build": "tsc"
   },
   "dependencies": {
     "next-runtime-env": "1"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "bun-plugin-dts": "^0.3.0",
     "eslint": "^9.23.0",
     "eslint-config": "https://github.com/exoRift/eslint-config#v1.0.0"
   },

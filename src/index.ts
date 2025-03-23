@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 import type z from 'zod'
 
-import { ValidatedEnvironment } from './env'
+import { ValidatedEnvironment } from './env.js'
 
 export function createEnv<
 TServer extends Record<string, z.ZodType> = {},
@@ -12,5 +12,5 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
   return ((global._env as undefined) ??= new ValidatedEnvironment(...params)) /* eslint-disable-line @typescript-eslint/no-unnecessary-condition */
 }
 
-export { config } from './config'
-export { prestandalone } from './prestandalone'
+export { config } from './config.js'
+export { prestandalone } from './prestandalone.js'

@@ -1,8 +1,8 @@
 import type { NextConfig } from 'next'
-import { type ConfigureRuntimeEnvOptions, configureRuntimeEnv } from 'next-runtime-env/build/configure'
-import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD, PHASE_PRODUCTION_SERVER } from 'next/constants'
+import { type ConfigureRuntimeEnvOptions, configureRuntimeEnv } from 'next-runtime-env/build/configure.js'
+import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD, PHASE_PRODUCTION_SERVER } from 'next/constants.js'
 
-import type { ValidatedEnvironment } from './env'
+import type { ValidatedEnvironment } from './env.js'
 
 export function config (env: ValidatedEnvironment, nextConfig?: NextConfig, runtimeEnvConfig?: ConfigureRuntimeEnvOptions) {
   return function (phase: string): NextConfig {
