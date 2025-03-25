@@ -29,7 +29,7 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 
     return {
       env: {
-        ...env._staticEnv,
+        ...(env as any)._staticEnv,
         ...nextConfig?.env
       },
       ...nextConfig

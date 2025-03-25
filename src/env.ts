@@ -9,15 +9,18 @@ type RecordInput<Z extends Record<string, z.ZodType>> = {
 type RecordOutput<Z extends Record<string, z.ZodType>> = {
   [K in keyof Z]: z.output<Z[K]>
 }
+type CheckUnprefixed<P extends string, O extends Record<`${P}${string}`, unknown>> = {
+  [K in keyof O]: K extends `${P}${string}` ? O[K] : `doesn't start with ${P}`
+}
 
 type EnvOptions<
 TServer extends Record<string, z.ZodType> = {},
-TShared extends Record<`NEXT_PLUBLIC_${string}`, z.ZodType> = {},
+TShared extends Record<`NEXT_PUBLIC_${string}`, z.ZodType> = {},
 TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 > = {
   server?: TServer
-  shared?: TShared
-  static?: TStatic
+  shared?: CheckUnprefixed<'NEXT_PUBLIC_', TShared>
+  static?: CheckUnprefixed<'NEXT_STATIC_', TStatic>
   skipValidation?: boolean
 } & (
   {} extends TStatic
@@ -26,7 +29,7 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
     }
     : {
       /** Required for Next static bake */
-      staticEnvVars: RecordInput<TStatic>
+      staticEnvVars: RecordInput<NoInfer<TStatic>>
     }
 )
 
@@ -35,7 +38,7 @@ TServer extends Record<string, z.ZodType> = {},
 TShared extends Record<`NEXT_PLUBLIC_${string}`, z.ZodType> = {},
 TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 > {
-  readonly _staticEnv?: RecordInput<TStatic>
+  private readonly _staticEnv?: RecordInput<TStatic>
 
   private readonly _validated: {
     server: RecordOutput<TServer> | undefined
@@ -45,8 +48,8 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 
   private readonly _schemas: {
     server?: TServer
-    shared?: TShared
-    static?: TStatic
+    shared?: CheckUnprefixed<'NEXT_PUBLIC_', TShared>
+    static?: CheckUnprefixed<'NEXT_STATIC_', TStatic>
   }
 
   constructor (options: EnvOptions<TServer, TShared, TStatic>) {
