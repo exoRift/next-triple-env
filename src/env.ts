@@ -3,7 +3,8 @@ import type { z } from 'zod'
 import { env as runtimeEnv } from 'next-runtime-env'
 
 type RecordInput<Z extends Record<string, z.ZodType>> = {
-  [K in keyof Z]: z.input<Z[K]>
+  // [K in keyof Z]: z.input<Z[K]>
+  [K in keyof Z]: string | undefined
 }
 type RecordOutput<Z extends Record<string, z.ZodType>> = {
   [K in keyof Z]: z.output<Z[K]>
@@ -34,7 +35,7 @@ TServer extends Record<string, z.ZodType> = {},
 TShared extends Record<`NEXT_PLUBLIC_${string}`, z.ZodType> = {},
 TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 > {
-  private readonly _staticEnv?: RecordInput<TStatic>
+  readonly _staticEnv?: RecordInput<TStatic>
 
   private readonly _validated: {
     server: RecordOutput<TServer> | undefined
