@@ -79,3 +79,8 @@ prestandalone(env, {
   // ...next-runtime-env config
 })
 ```
+
+## Disabling Validation
+Besides for `env.skip()`, validation can be skipped by setting the `SKIP_ENV_VALIDATION` environment variable.
+
+The value can be any permutation of the 3 environments (`server`, `shared`, `static`) joined by commas without spaces, or `all` or `true` for all 3 environments.

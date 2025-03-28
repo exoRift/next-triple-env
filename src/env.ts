@@ -35,7 +35,7 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 
 export class ValidatedEnvironment<
 TServer extends Record<string, z.ZodType> = {},
-TShared extends Record<`NEXT_PLUBLIC_${string}`, z.ZodType> = {},
+TShared extends Record<`NEXT_PUBLIC_${string}`, z.ZodType> = {},
 TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 > {
   private readonly _staticEnv?: RecordInput<TStatic>
@@ -85,7 +85,11 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
   }
 
   get skippedValidations (): Set<'server' | 'shared' | 'static'> {
-    return new Set(process.env.SKIP_ENV_VALIDATION?.split(',') as Array<'server' | 'shared' | 'static'>)
+    const envs: Array<'server' | 'shared' | 'static'> = ['true', 'all'].includes(process.env.SKIP_ENV_VALIDATION)
+      ? ['server', 'shared', 'static']
+      : process.env.SKIP_ENV_VALIDATION?.split(',') as any
+
+    return new Set(envs)
   }
 
   /** Server-side env vars */
