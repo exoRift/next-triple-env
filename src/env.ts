@@ -18,9 +18,13 @@ TServer extends Record<string, z.ZodType> = {},
 TShared extends Record<`NEXT_PUBLIC_${string}`, z.ZodType> = {},
 TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 > = {
+  /** The server schema (only available on the server) */
   server?: TServer
+  /** The shared schema (available on server and client, live) */
   shared?: CheckUnprefixed<'NEXT_PUBLIC_', TShared>
+  /** The static schema (available on server and client, baked at build) */
   static?: CheckUnprefixed<'NEXT_STATIC_', TStatic>
+  /** Skip all env validation entirely */
   skipValidation?: boolean
 } & (
   {} extends TStatic
@@ -28,11 +32,20 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
       staticEnvVars?: never
     }
     : {
-      /** Required for Next static bake */
+      /**
+       * Required for Next static bake; a record of your static env vars and their acess from `process.env`
+       * @example
+       * {
+       *    NEXT_STATIC_FOO: process.env.NEXT_STATIC_FOO
+       * }
+       */
       staticEnvVars: RecordInput<NoInfer<TStatic>>
     }
 )
 
+/**
+ * A 3-schema validated environment
+ */
 export class ValidatedEnvironment<
 TServer extends Record<string, z.ZodType> = {},
 TShared extends Record<`NEXT_PUBLIC_${string}`, z.ZodType> = {},
@@ -52,6 +65,10 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
     static?: CheckUnprefixed<'NEXT_STATIC_', TStatic>
   }
 
+  /**
+   * Construct a validated environment
+   * @param options Your environment schemas and options
+   */
   constructor (options: EnvOptions<TServer, TShared, TStatic>) {
     this._staticEnv = options.staticEnvVars
 
@@ -114,7 +131,8 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 
   /**
    * Validate an env schema
-   * @param schema The schema to validate
+   * @param          schema The schema to validate
+   * @throws {Error}        If an incorrect schema name is given
    */
   validate (schema: 'server' | 'shared' | 'static'): void {
     if (this._validated[schema]) return

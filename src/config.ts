@@ -6,6 +6,14 @@ import { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD, PHASE_PRODUCTION_SERV
 
 import type { ValidatedEnvironment } from './env.js'
 
+/**
+ * Configure Next.JS to support triple-env. For use in next.config.[ts|mjs]
+ * @param env              The created validated environment
+ * @param nextConfig       Your regular next config
+ * @param runtimeEnvConfig Additional options for next-runtime-env
+ * @see https://github.com/expatfile/next-runtime-env/tree/1.x
+ * @returns                Your augmented Next.JS config
+ */
 export function config<
 TServer extends Record<string, z.ZodType> = {},
 TShared extends Record<`NEXT_PLUBLIC_${string}`, z.ZodType> = {},

@@ -3,6 +3,11 @@ import type z from 'zod'
 
 import { ValidatedEnvironment } from './env.js'
 
+/**
+ * Create a singleton env
+ * @param params The constructor params for a validated environment
+ * @returns      The validated environment
+ */
 export function createEnv<
 TServer extends Record<string, z.ZodType> = {},
 TShared extends Record<`NEXT_PLUBLIC_${string}`, z.ZodType> = {},

@@ -15,7 +15,8 @@
     "@types/bun": "latest",
     "custom-types": "github:exoRift/custom-types",
     "eslint": "^9.23.0",
-    "eslint-config": "https://github.com/exoRift/eslint-config#v1.0.0"
+    "eslint-config": "github:exoRift/eslint-config",
+    "eslint-plugin-jsdoc": "^50.6.9"
   },
   "peerDependencies": {
     "next": "^15.2.3",
