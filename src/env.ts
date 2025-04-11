@@ -142,6 +142,11 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 
     let failed = false
     for (const key in this._schemas[schema]) {
+      switch (schema) {
+        case 'shared': if (!key.startsWith('NEXT_PUBLIC_')) console.warn(`Shared env key ${key} doesn't start with NEXT_PUBLIC_`); break
+        case 'static': if (!key.startsWith('NEXT_STATIC_')) console.warn(`Shared env key ${key} doesn't start with NEXT_STATIC_`); break
+      }
+
       let retrieved = schema === 'static'
         ? this._staticEnv?.[key as keyof typeof this._staticEnv]
         : runtimeEnv(key)
