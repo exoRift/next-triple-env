@@ -49,7 +49,7 @@ export const env = createEnv({
 Edit your Next config:
 
 ```ts
-import { config } from 'next-triple-env'
+import { config } from 'next-triple-env/config'
 import { env } from './env'
 
 export default config(env, {
@@ -72,7 +72,7 @@ If using `output: 'standalone'`, you can set up a script to run before starting 
 
 ```ts
 // prestandalone.ts
-import { prestandalone } from 'next-triple-env'
+import { prestandalone } from 'next-triple-env/prestandalone'
 import { env } from './env'
 
 prestandalone(env, {
