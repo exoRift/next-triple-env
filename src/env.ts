@@ -135,7 +135,7 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
    * @throws {Error}        If an incorrect schema name is given
    */
   validate (schema: 'server' | 'shared' | 'static'): void {
-    if (this._validated[schema]) return
+    if (this._validated[schema] && process.env.NODE_ENV === 'production') return
     this._validated[schema] = {} as any
 
     if (!this._schemas[schema]) throw new Error(`❌ Requesting env var from nonexistent schema (${schema})`)

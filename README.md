@@ -18,9 +18,14 @@ Uses [next-runtime-env](https://github.com/expatfile/next-runtime-env) version 1
 > These variables are prefixed with `NEXT_STATIC_`
 
 When server variables are accessed from a browser context, an error will be thrown.
+
 When in dev mode, each schema will be separately validated upon access.
+
 When building, only the static schema will be validated.
+
 On production start, all schemas will be validatd.
+
+If `process.env.NODE_ENV === 'production'`, individual schemas will not revalidated upon access
 
 ## Example usage
 Create a file `env.ts`
