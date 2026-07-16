@@ -10,7 +10,7 @@ import type { ValidatedEnvironment } from './env.js'
  */
 export function prestandalone (env: ValidatedEnvironment, runtimeEnvConfig?: ConfigureRuntimeEnvOptions): void {
   configureRuntimeEnv(runtimeEnvConfig)
-  env.validate('server')
-  env.validate('shared')
-  env.validate('static')
+  env.validate('server', true)
+  env.validate('shared', true)
+  env.validate('static', true)
 }

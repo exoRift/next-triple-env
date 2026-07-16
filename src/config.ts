@@ -25,13 +25,13 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
       case PHASE_PRODUCTION_BUILD:
         env.skip('server')
         env.skip('shared')
-        env.validate('static')
+        env.validate('static', true)
         break
       case PHASE_DEVELOPMENT_SERVER:
       case PHASE_PRODUCTION_SERVER:
-        env.validate('server')
-        env.validate('shared')
-        env.validate('static')
+        env.validate('server', true)
+        env.validate('shared', true)
+        env.validate('static', true)
         break
     }
 

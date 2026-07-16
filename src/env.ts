@@ -102,7 +102,7 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
   }
 
   get skippedValidations (): Set<'server' | 'shared' | 'static'> {
-    const envs: Array<'server' | 'shared' | 'static'> = ['true', 'all'].includes(process.env.SKIP_ENV_VALIDATION)
+    const envs: Array<'server' | 'shared' | 'static'> = ['true', 'all'].includes(process.env.SKIP_ENV_VALIDATION!)
       ? ['server', 'shared', 'static']
       : process.env.SKIP_ENV_VALIDATION?.split(',') as any
 
@@ -131,14 +131,18 @@ TStatic extends Record<`NEXT_STATIC_${string}`, z.ZodType> = {}
 
   /**
    * Validate an env schema
-   * @param          schema The schema to validate
-   * @throws {Error}        If an incorrect schema name is given
+   * @param          schema        The schema to validate
+   * @param          ignoreAbsence Don't error on the absence of this schema in the definition
+   * @throws {Error}               If an incorrect schema name is given
    */
-  validate (schema: 'server' | 'shared' | 'static'): void {
+  validate (schema: 'server' | 'shared' | 'static', ignoreAbsence?: true): void {
     if (this._validated[schema] && process.env.NODE_ENV === 'production') return
     this._validated[schema] = {} as any
 
-    if (!this._schemas[schema]) throw new Error(`❌ Requesting env var from nonexistent schema (${schema})`)
+    if (!this._schemas[schema]) {
+      if (ignoreAbsence) return
+      throw new Error(`❌ Requesting env var from nonexistent schema (${schema})`)
+    }
 
     let failed = false
     for (const key in this._schemas[schema]) {
